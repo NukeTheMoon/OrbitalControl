@@ -16,3 +16,4 @@ public class Player2ScoreDisplay : MonoBehaviour {
 
 
 }
+    
