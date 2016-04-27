@@ -50,8 +50,7 @@ public override void OnJoinedLobby()
         {
             case GameRole.Camera:
                 Instantiate(Resources.Load("ARCamera"), SpawnPoints.ARCameraSpawn.position, SpawnPoints.ARCameraSpawn.rotation);
-                GameObject redTarget = PhotonNetwork.Instantiate("RedTarget", SpawnPoints.RedTargetSpawn.position, SpawnPoints.RedTargetSpawn.rotation, 0);
-                redTarget.transform.parent = World;
+                PhotonNetwork.Instantiate("RedTarget", SpawnPoints.RedTargetSpawn.position, SpawnPoints.RedTargetSpawn.rotation, 0).transform.parent = World;
                 PhotonNetwork.Instantiate("BlueTarget", SpawnPoints.BlueTargetSpawn.position, SpawnPoints.BlueTargetSpawn.rotation, 0).transform.parent = World;
                 break;
             case GameRole.Player:
