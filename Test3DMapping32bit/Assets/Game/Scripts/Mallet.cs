@@ -3,21 +3,34 @@ using UnityEngine;
 
 public class Mallet : MonoBehaviour {
 
-    public Transform Target;
+    public PointerColor ColorOfPointerToFollow;
     public float Speed;
     public float DistanceToStop;
     public float AngularSpeed;
     public float AngleTolerance;
 
+    private Transform _pointerToFollow;
+
     private Rigidbody _rigidbody;
 
-	// Use this for initialization
 	void Start () {
+
+        switch (ColorOfPointerToFollow)
+        {
+            case (PointerColor.Red):
+                _pointerToFollow = GameObject.FindGameObjectWithTag("RedPointer").transform;
+                break;
+            case (PointerColor.Blue):
+                _pointerToFollow = GameObject.FindGameObjectWithTag("BluePointer").transform;
+                break;
+            default:
+                break;
+        }
+
         _rigidbody = GetComponent<Rigidbody>();
 
     }
 	
-	// Update is called once per frame
 	void Update () {
 	
 	}
@@ -60,15 +73,15 @@ public class Mallet : MonoBehaviour {
     {
         _rigidbody.drag = 0f;
         var direction = Vector3.zero;
-        direction = Target.position - transform.position;
+        direction = _pointerToFollow.position - transform.position;
         _rigidbody.AddRelativeForce(direction.normalized * Speed, ForceMode.Force);
     }
 
     private void RotateToMatchTarget()
     {
         _rigidbody.angularVelocity = Vector3.zero;
-        _rigidbody.AddTorque(Vector3.Cross(transform.up, Target.transform.up) * AngularSpeed);
-        _rigidbody.AddTorque(Vector3.Cross(transform.right, Target.transform.right) * AngularSpeed);
+        _rigidbody.AddTorque(Vector3.Cross(transform.up, _pointerToFollow.transform.up) * AngularSpeed);
+        _rigidbody.AddTorque(Vector3.Cross(transform.right, _pointerToFollow.transform.right) * AngularSpeed);
     }
 
     private void StopForces()
@@ -78,6 +91,6 @@ public class Mallet : MonoBehaviour {
 
     private bool OutsideStoppingDistanceFromTarget()
     {
-        return Vector3.Distance(transform.position, Target.position) > DistanceToStop;
+        return Vector3.Distance(transform.position, _pointerToFollow.position) > DistanceToStop;
     }
 }

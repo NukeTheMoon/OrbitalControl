@@ -1,20 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum PointerColor { Red, Blue }
+
 public class AttractInputWhenWithinBounds : MonoBehaviour {
 
-    public GameObject Input;
-    public GameObject TableSurface;
+    public PointerColor ColorOfPointerToAttract;
+    private GameObject _tableSurface;
+    private GameObject _pointerToAttract;
     private float _lampHeight = 1.0f;
     private float _tableWidth = 1.3f;
     private float _tableLength = 2.5f;
 
-    // Use this for initialization
     void Start () {
-	
+
+        switch (ColorOfPointerToAttract) {
+            case (PointerColor.Red):
+                _pointerToAttract = GameObject.FindGameObjectWithTag("RedPointer");
+                break;
+            case (PointerColor.Blue):
+                _pointerToAttract = GameObject.FindGameObjectWithTag("BluePointer");
+                break;
+            default:
+                break;
+        }
+
+        _tableSurface = GameObject.FindGameObjectWithTag("TableSurface");
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (!(AboveLampHeight() ||
             LeftOfTableBounds() || RightOfTableBounds() ||
@@ -22,11 +35,11 @@ public class AttractInputWhenWithinBounds : MonoBehaviour {
         {
             if (BelowStandardHeight())
             {
-                Input.transform.position = new Vector3(transform.position.x, Input.transform.position.y, transform.position.z);
+                _pointerToAttract.transform.position = new Vector3(transform.position.x, _pointerToAttract.transform.position.y, transform.position.z);
             }
             else
-            { 
-                Input.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            {
+                _pointerToAttract.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             }
         }
 
@@ -54,11 +67,11 @@ public class AttractInputWhenWithinBounds : MonoBehaviour {
 
     private bool AboveLampHeight()
     {
-        return transform.position.y > TableSurface.transform.position.y + _lampHeight;
+        return transform.position.y > _tableSurface.transform.position.y + _lampHeight;
     }
 
     private bool BelowStandardHeight()
     {
-        return transform.position.y < TableSurface.transform.position.y + 0.05f;
+        return transform.position.y < _tableSurface.transform.position.y + 0.05f;
     }
 }

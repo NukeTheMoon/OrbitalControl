@@ -4,7 +4,9 @@ using System.Collections;
 public class PuckSpawner : MonoBehaviour {
 
     public Transform Origin;
-    public float FadeInTime; 
+    public float FadeInTime;
+    public SpawnPointsReference SpawnPoints;
+    public Transform World;
     private Logic _logic;
     private Color _colorOpaque;
     private Color _colorTransparent;
@@ -35,7 +37,7 @@ public class PuckSpawner : MonoBehaviour {
 
     public void SpawnPuck()
     {
-        var puck = Instantiate(_logic.Prefabs.Puck);
+        var puck = PhotonNetwork.Instantiate("Puck", SpawnPoints.PuckSpawn.position, SpawnPoints.PuckSpawn.rotation, 0).transform.parent = World;
         puck.transform.parent = Origin;
         _puckRenderer = puck.GetComponent<Renderer>();
         _colorOpaque = _puckRenderer.material.color;

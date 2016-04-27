@@ -3,22 +3,26 @@ using UnityEngine;
 
 public class DisallowMovementOutOfTableBounds : MonoBehaviour
 {
-    public GameObject TableSurface;
+    private GameObject _tableSurface;
     private float _lampHeight = 1.0f;
     private float _tableWidth = 1.3f;
     private float _tableLength = 2.5f;
 
+    void Start()
+    {
+        _tableSurface = GameObject.FindGameObjectWithTag("TableSurface");
+    }
 
 
     void Update()
     {
         if (BelowStandardHeight())
         {
-            transform.position = new Vector3(transform.position.x, TableSurface.transform.position.y + 0.05f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, _tableSurface.transform.position.y + 0.05f, transform.position.z);
         }
         if (AboveLampHeight())
         {
-            transform.position = new Vector3(transform.position.x, TableSurface.transform.position.y + _lampHeight, transform.position.z);
+            transform.position = new Vector3(transform.position.x, _tableSurface.transform.position.y + _lampHeight, transform.position.z);
         }
         if (LeftOfTableBounds())
         {
@@ -60,11 +64,11 @@ public class DisallowMovementOutOfTableBounds : MonoBehaviour
 
     private bool AboveLampHeight()
     {
-        return transform.position.y > TableSurface.transform.position.y + _lampHeight;
+        return transform.position.y > _tableSurface.transform.position.y + _lampHeight;
     }
 
     private bool BelowStandardHeight()
     {
-        return transform.position.y < TableSurface.transform.position.y + 0.05f;
+        return transform.position.y < _tableSurface.transform.position.y + 0.05f;
     }
 }
