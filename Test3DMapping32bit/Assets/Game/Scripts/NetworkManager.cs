@@ -61,12 +61,12 @@ public class NetworkManager : PunBehaviour {
             case GameRole.Player:
                 if (!_redPlayerSeatTaken)
                 {
-                    Instantiate(Resources.Load("RedVRCamera"), SpawnPoints.RedVRCameraSpawn.position, SpawnPoints.RedVRCameraSpawn.rotation);
+                    Instantiate(Resources.Load("Red VR Camera"), SpawnPoints.RedVRCameraSpawn.position, SpawnPoints.RedVRCameraSpawn.rotation);
                     PhotonNetwork.Instantiate("RedMallet", SpawnPoints.RedMalletSpawn.position, SpawnPoints.RedMalletSpawn.rotation, 0).transform.parent = World;
                 }
                 else if (!_bluePlayerSeatTaken)
                 {
-                    Instantiate(Resources.Load("BlueVRCamera"), SpawnPoints.BlueVRCameraSpawn.position, SpawnPoints.BlueVRCameraSpawn.rotation);
+                    Instantiate(Resources.Load("Blue VR Camera"), SpawnPoints.BlueVRCameraSpawn.position, SpawnPoints.BlueVRCameraSpawn.rotation);
                     PhotonNetwork.Instantiate("BlueMallet", SpawnPoints.BlueMalletSpawn.position, SpawnPoints.BlueMalletSpawn.rotation, 0).transform.parent = World;
                 }
                 else
