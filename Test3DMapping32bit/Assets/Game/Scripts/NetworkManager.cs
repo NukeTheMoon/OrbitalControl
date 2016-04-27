@@ -46,20 +46,28 @@ public override void OnJoinedLobby()
     public override void OnJoinedRoom()
     {
 
+        StartCoroutine(AssumeRole());
+
+    }
+
+    public IEnumerator AssumeRole()
+    {
+        yield return new WaitForSeconds(2);
         switch (Role)
         {
             case GameRole.Camera:
                 Instantiate(Resources.Load("ARCamera"), SpawnPoints.ARCameraSpawn.position, SpawnPoints.ARCameraSpawn.rotation);
                 PhotonNetwork.Instantiate("RedTarget", SpawnPoints.RedTargetSpawn.position, SpawnPoints.RedTargetSpawn.rotation, 0).transform.parent = World;
                 PhotonNetwork.Instantiate("BlueTarget", SpawnPoints.BlueTargetSpawn.position, SpawnPoints.BlueTargetSpawn.rotation, 0).transform.parent = World;
+                PhotonNetwork.Instantiate("Puck", SpawnPoints.PuckSpawn.position, SpawnPoints.PuckSpawn.rotation, 1).transform.parent = World;
                 break;
             case GameRole.Player:
-                if (GameObject.Find("RedMallet") == null)
+                if (!GameObject.Find("RedMallet(Clone)"))
                 {
                     Instantiate(Resources.Load("Red VR Camera"), SpawnPoints.RedVRCameraSpawn.position, SpawnPoints.RedVRCameraSpawn.rotation);
                     PhotonNetwork.Instantiate("RedMallet", SpawnPoints.RedMalletSpawn.position, SpawnPoints.RedMalletSpawn.rotation, 0).transform.parent = World;
                 }
-                else if (GameObject.Find("BlueMallet") == null)
+                else if (!GameObject.Find("BlueMallet(Clone)"))
                 {
                     Instantiate(Resources.Load("Blue VR Camera"), SpawnPoints.BlueVRCameraSpawn.position, SpawnPoints.BlueVRCameraSpawn.rotation);
                     PhotonNetwork.Instantiate("BlueMallet", SpawnPoints.BlueMalletSpawn.position, SpawnPoints.BlueMalletSpawn.rotation, 0).transform.parent = World;
@@ -74,16 +82,8 @@ public override void OnJoinedLobby()
         }
 
         _photonView.RPC("TakeSeat", PhotonTargets.AllBuffered, Role);
-        SpawnPuck();
     }
 
-    public void SpawnPuck()
-    {
-        if (_cameraServerSeatTaken && _redPlayerSeatTaken && _bluePlayerSeatTaken)
-        {
-            PhotonNetwork.Instantiate("Puck", SpawnPoints.PuckSpawn.position, SpawnPoints.PuckSpawn.rotation, 1).transform.parent = World;
-        }
-    }
 
     [PunRPC]
     public void TakeSeat(GameRole role)
