@@ -26,20 +26,16 @@ public class NetworkManager : PunBehaviour {
 
     }
 
-    public override void OnConnectedToMaster()
+    public override void OnPhotonJoinRoomFailed(object[] codeAndMsg)
     {
-        if (PhotonNetwork.room == null)
-        {
-            PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"), new RoomOptions() { maxPlayers = 3 }, null);
-        }
+        PhotonNetwork.CreateRoom(roomName, new RoomOptions() { maxPlayers = 3 }, null);
+    }
 
-        if (roomsList != null)
-        {
-            for (int i = 0; i < roomsList.Length; ++i)
-            {
-                PhotonNetwork.JoinRoom(roomsList[i].name);
-            }
-        }
+public override void OnJoinedLobby()
+    {
+
+        PhotonNetwork.JoinRoom(roomName);
+
     }
 
     public override void OnReceivedRoomListUpdate()
