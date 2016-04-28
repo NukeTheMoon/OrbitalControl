@@ -16,6 +16,7 @@ public class MoveToStandardHeight : MonoBehaviour {
     void Update () {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            _standardHeight = GameObject.FindGameObjectWithTag("RedTarget").transform;
             transform.Translate(0, _standardHeight.position.y, 0);
         }
     }

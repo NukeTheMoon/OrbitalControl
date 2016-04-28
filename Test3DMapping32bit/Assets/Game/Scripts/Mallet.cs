@@ -40,9 +40,9 @@ public class Mallet : MonoBehaviour {
 
         if (_rigidbody != null)
         {
-            if (OutsideStoppingDistanceFromTarget())
+            if (OutsideStoppingDistanceFromPointer())
             {
-                ApproachTarget();
+                ApproachPointer();
             }
             else
             {
@@ -50,7 +50,7 @@ public class Mallet : MonoBehaviour {
             }
 
             LimitSpeed();
-            RotateToMatchTarget();
+            RotateToMatchPointer();
         }
     }
 
@@ -69,7 +69,7 @@ public class Mallet : MonoBehaviour {
         }
     }
 
-    private void ApproachTarget()
+    private void ApproachPointer()
     {
         _rigidbody.drag = 0f;
         var direction = Vector3.zero;
@@ -77,7 +77,7 @@ public class Mallet : MonoBehaviour {
         _rigidbody.AddRelativeForce(direction.normalized * Speed, ForceMode.Force);
     }
 
-    private void RotateToMatchTarget()
+    private void RotateToMatchPointer()
     {
         _rigidbody.angularVelocity = Vector3.zero;
         _rigidbody.AddTorque(Vector3.Cross(transform.up, _pointerToFollow.transform.up) * AngularSpeed);
@@ -89,7 +89,7 @@ public class Mallet : MonoBehaviour {
         _rigidbody.drag = 1000f;
     }
 
-    private bool OutsideStoppingDistanceFromTarget()
+    private bool OutsideStoppingDistanceFromPointer()
     {
         return Vector3.Distance(transform.position, _pointerToFollow.position) > DistanceToStop;
     }

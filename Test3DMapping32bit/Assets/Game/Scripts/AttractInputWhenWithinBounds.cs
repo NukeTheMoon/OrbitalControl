@@ -6,8 +6,9 @@ public enum PointerColor { Red, Blue }
 public class AttractInputWhenWithinBounds : MonoBehaviour {
 
     public PointerColor ColorOfPointerToAttract;
-    private GameObject _tableSurface;
+    private GameObject _standardHeight;
     private GameObject _pointerToAttract;
+    private Quaternion _pointerOriginalRotation;
     private float _lampHeight = 1.0f;
     private float _tableWidth = 1.3f;
     private float _tableLength = 2.5f;
@@ -25,7 +26,8 @@ public class AttractInputWhenWithinBounds : MonoBehaviour {
                 break;
         }
 
-        _tableSurface = GameObject.FindGameObjectWithTag("TableSurface");
+        _pointerOriginalRotation = _pointerToAttract.transform.rotation;
+        _standardHeight = GameObject.FindGameObjectWithTag("StandardHeight");
 	}
 	
 	void Update () {
@@ -33,13 +35,16 @@ public class AttractInputWhenWithinBounds : MonoBehaviour {
             LeftOfTableBounds() || RightOfTableBounds() ||
             BehindTableBounds() || InFrontOfTableBounds()))
         {
-            if (BelowStandardHeight())
+            if (AtOrBelowStandardHeight())
             {
-                _pointerToAttract.transform.position = new Vector3(transform.position.x, _pointerToAttract.transform.position.y, transform.position.z);
+                _pointerToAttract.transform.position = new Vector3(transform.position.x, _standardHeight.transform.position.y, transform.position.z);
+                _pointerToAttract.transform.rotation = _pointerOriginalRotation;
+
             }
             else
             {
                 _pointerToAttract.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                _pointerToAttract.transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
             }
         }
 
@@ -67,11 +72,11 @@ public class AttractInputWhenWithinBounds : MonoBehaviour {
 
     private bool AboveLampHeight()
     {
-        return transform.position.y > _tableSurface.transform.position.y + _lampHeight;
+        return transform.position.y > _standardHeight.transform.position.y + _lampHeight;
     }
 
-    private bool BelowStandardHeight()
+    private bool AtOrBelowStandardHeight()
     {
-        return transform.position.y < _tableSurface.transform.position.y + 0.05f;
+        return transform.position.y <= _standardHeight.transform.position.y + 0.05f;
     }
 }

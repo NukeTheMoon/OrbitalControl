@@ -59,18 +59,19 @@ public override void OnJoinedLobby()
                 Instantiate(Resources.Load("ARCamera"), SpawnPoints.ARCameraSpawn.position, SpawnPoints.ARCameraSpawn.rotation);
                 PhotonNetwork.Instantiate("RedTarget", SpawnPoints.RedTargetSpawn.position, SpawnPoints.RedTargetSpawn.rotation, 0).transform.parent = World;
                 PhotonNetwork.Instantiate("BlueTarget", SpawnPoints.BlueTargetSpawn.position, SpawnPoints.BlueTargetSpawn.rotation, 0).transform.parent = World;
-                PhotonNetwork.Instantiate("Puck", SpawnPoints.PuckSpawn.position, SpawnPoints.PuckSpawn.rotation, 1).transform.parent = World;
+                PhotonNetwork.Instantiate("Puck", SpawnPoints.PuckSpawn.position, SpawnPoints.PuckSpawn.rotation, 0).transform.parent = World;
+                PhotonNetwork.Instantiate("RedMallet", SpawnPoints.RedMalletSpawn.position, SpawnPoints.RedMalletSpawn.rotation, 0).transform.parent = World;
+                PhotonNetwork.Instantiate("BlueMallet", SpawnPoints.BlueMalletSpawn.position, SpawnPoints.BlueMalletSpawn.rotation, 0).transform.parent = World;
+
                 break;
             case GameRole.Player:
-                if (!GameObject.Find("RedMallet(Clone)"))
+                if (!GameObject.Find("Red VR Camera(Clone)"))
                 {
                     Instantiate(Resources.Load("Red VR Camera"), SpawnPoints.RedVRCameraSpawn.position, SpawnPoints.RedVRCameraSpawn.rotation);
-                    PhotonNetwork.Instantiate("RedMallet", SpawnPoints.RedMalletSpawn.position, SpawnPoints.RedMalletSpawn.rotation, 0).transform.parent = World;
                 }
-                else if (!GameObject.Find("BlueMallet(Clone)"))
+                else if (!GameObject.Find("Blue VR Camera(Clone)"))
                 {
                     Instantiate(Resources.Load("Blue VR Camera"), SpawnPoints.BlueVRCameraSpawn.position, SpawnPoints.BlueVRCameraSpawn.rotation);
-                    PhotonNetwork.Instantiate("BlueMallet", SpawnPoints.BlueMalletSpawn.position, SpawnPoints.BlueMalletSpawn.rotation, 0).transform.parent = World;
                 }
                 else
                 {
